@@ -1,0 +1,4 @@
+transformers
+lxml
+bs4
+nltk
