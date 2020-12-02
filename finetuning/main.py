@@ -5,6 +5,9 @@ import sys
 
 
 def load_dataset(train_path, test_path, tokenizer):
+    """
+    Loads training and validation data from text files into a TextDataset.
+    """
     train_dataset = TextDataset(
           tokenizer=tokenizer,
           file_path=train_path,
@@ -22,11 +25,20 @@ def load_dataset(train_path, test_path, tokenizer):
 
 
 def main(politician, epochs):
+    """
+    High-level management of model training process.
+    """
     train_path = f"..\\data\\{politician}\\training_data.txt"
     val_path = f"..\\data\\{politician}\\validation_data.txt"
 
     tokenizer = AutoTokenizer.from_pretrained("anonymous-german-nlp/german-gpt2")
-    special_tokens_dict = {'bos_token': '<BOS>', 'eos_token': '<EOS>', 'pad_token': '<PAD>'}
+
+    special_tokens_dict = {
+        'bos_token': '<BOS>',
+        'eos_token': '<EOS>',
+        'pad_token': '<PAD>',
+        'additional_special_tokens': ['<EOQ>']
+    }
     tokenizer.add_special_tokens(special_tokens_dict)
 
     train_dataset, test_dataset, data_collator = load_dataset(train_path, val_path, tokenizer)
